@@ -1,0 +1,34 @@
+algo:
+  sha256:
+    salt: "qwer"
+  md5:
+    salt: "qwer"
+
+rules:
+  default:
+    - fixedNum:
+        hint: "please input fixed number"
+    - webSite:
+        hint: "please input web site like http://www.baidu.com"
+    - birthday:
+        hint: "please input birthday like 19900101"
+
+  simple:
+    - fixedNum:
+        hint: "please input fixed number"
+
+  difficult:
+    - fixedNum:
+        hint: "please input fixed number"
+    - webSite:
+        hint: "please input web site like http://www.baidu.com"
+    - birthday:
+        hint: "please input birthday like 19900101"
+    - email:
+        hint: "please input email like helloworldyong9@gmail"
+    - phone:
+        hint: "please input phone like 13800138000"
+    - idCard:
+        hint: "please input id card like 110101199001011234"
+    - momName:
+        hint: "please input mom name like zhangsan"
