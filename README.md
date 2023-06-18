@@ -1,3 +1,10 @@
+<p align="center">
+    <picture>
+        <img alt="NoPass" title="NoPass" src="assets/img/logo.png">
+    </picture>
+</p>
+
+
 # nopass
 We should generate a password instead of remembering it.
 
