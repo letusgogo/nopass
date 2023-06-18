@@ -2,9 +2,11 @@
     <picture>
         <img alt="NoPass" title="NoPass" src="assets/img/logo.png">
     </picture>
-    [English](README.md) · [简体中文](README.zh-Hans.md)
+    <p align="center">
+            <a href="README.md">English</a>
+            <a href="README.zh-Hans.md">简体中文</a>
+   </p>
 </p>
-
 
 # nopass
 We should generate a password instead of remembering it.
