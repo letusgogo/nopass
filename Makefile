@@ -12,6 +12,9 @@ linux:
 install: darwin
 	cp ${PROJECT} ${GOPATH}/bin/
 
+.PHONY: win
+win:
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -o ${PROJECT}.exe ${MAIN_PATH}
 
 .PHONY: clean
 clean:

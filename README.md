@@ -20,6 +20,12 @@ some information from daily life (such as birthdays, phone numbers, email addres
 and password generation rules.
 Users only need to remember this information to easily reproduce the same strong passwords without worrying about password leaks.
 
+## Background
+
+I don't want to remember the passwords for my various websites, especially since different websites generally use different passwords.
+
+Nowhere but my brain is safe from third-party websites or some notes online or offline.
+
 ## Core Features
 
 1. Input daily life information: Users can provide information closely related to their lives,
