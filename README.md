@@ -4,6 +4,7 @@
     </picture>
     <p align="center">
             <a href="README.md">English</a>
+            ·
             <a href="README.zh-Hans.md">简体中文</a>
    </p>
 </p>
