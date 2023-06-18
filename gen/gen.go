@@ -47,12 +47,11 @@ func generateHardPassword(password string) string {
 	return string(hardPassword)
 }
 
-func GeneratePassword(rule *rule.Rule, algo algo.Algorithm, salt string, elementValues map[string]string) string {
-	// 根据 rule 和 elementValues 生成原始密码
-	originalPassword := "" // ...
+func GeneratePassword(rule *rule.Rule, algo algo.Algorithm) string {
+	originalPassword := rule.Compose()
 
-	// 使用算法生成最终密码
-	password := algo.Generate(originalPassword, salt)
+	password := algo.Generate(originalPassword)
 
-	return password
+	hardPassword := generateHardPassword(password)
+	return hardPassword
 }

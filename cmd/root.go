@@ -5,7 +5,8 @@ Copyright © 2023 Helloworld helloworldyong9@gmail.com
 package cmd
 
 import (
-	"fmt"
+	"github.com/letusgogo/nopass/config"
+	"github.com/letusgogo/nopass/log"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -13,7 +14,7 @@ import (
 )
 
 var (
-	cfgFile string
+	defaultConfig *config.Config
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -22,7 +23,7 @@ var rootCmd = &cobra.Command{
 	Short: "A password generator based on user-defined fields (nopass)",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("generate password")
+
 	},
 }
 
@@ -36,17 +37,27 @@ func Execute() {
 }
 
 func init() {
+	cobra.OnInitialize(initLog)
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.nopass.yaml)")
+	rootCmd.PersistentFlags().StringP("config", "c", "", "config file (default is $HOME/.nopass.yaml)")
+	rootCmd.PersistentFlags().StringP("log", "l", "info", "log level (default is info)")
+}
 
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("pass", "t", false, "Help message for toggle")
+func initLog() {
+	logLevel, err := rootCmd.Flags().GetString("log")
+	if err != nil {
+		panic(err)
+	}
+	log.SetLevel(logLevel)
 }
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
+	cfgFile, err := rootCmd.Flags().GetString("config")
+	if err != nil {
+		panic(err)
+	}
 	if cfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
@@ -60,11 +71,22 @@ func initConfig() {
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".nopass")
 	}
+	// read in environment variables that match
+	viper.AutomaticEnv()
 
-	viper.AutomaticEnv() // read in environment variables that match
+	log.Debug("using config file: ", viper.ConfigFileUsed())
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		_, _ = fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+	err = viper.ReadInConfig()
+	if err != nil {
+		log.Fatalf("read %s failed: %v", viper.ConfigFileUsed(), err)
 	}
+
+	defaultConfig, err = config.LoadConfig()
+	if err != nil {
+		log.Fatalf("load %s failed: %v", viper.ConfigFileUsed(), err)
+	}
+	log.DrawPhase("config loaded", log.DebugLevel, func() {
+		log.Debug(defaultConfig)
+	})
 }

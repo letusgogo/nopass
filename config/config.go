@@ -1,36 +1,30 @@
 package config
 
 import (
-	"github.com/letusgogo/nopass/algo"
+	"fmt"
 	"github.com/spf13/viper"
 )
 
-type Config struct {
-	v *viper.Viper
+type AlgoConfig struct {
+	Salt string
 }
 
-func New() *Config {
-	v := viper.New()
-	v.SetConfigName("config")
-	v.SetConfigType("yaml")
-	v.AddConfigPath(".")
-	err := v.ReadInConfig()
+type ElementConfig struct {
+	Sort int
+	Hint string
+}
+
+type Config struct {
+	Algo  map[string]*AlgoConfig
+	Rules map[string]map[string]ElementConfig
+}
+
+func LoadConfig() (*Config, error) {
+	var cfg Config
+	err := viper.Unmarshal(&cfg)
 	if err != nil {
-		panic(err)
+		return nil, fmt.Errorf("failed to unmarshal config: %w", err)
 	}
 
-	return &Config{v: v}
-}
-
-type Rule struct {
-	Name     string
-	Elements map[string]string
-}
-
-func (c *Config) GetRules() []Rule {
-	return nil
-}
-
-func (c *Config) GetAlgo(name string) algo.Algorithm {
-	return nil
+	return &cfg, nil
 }

@@ -6,12 +6,15 @@ algo:
 
 rules:
   default:
-    - fixedNum:
+    - f:
         hint: "please input fixed number"
-    - webSite:
-        hint: "please input web site like http://www.baidu.com"
-    - birthday:
+        sort: 1
+    - w:
+        hint: "please input web site like www.baidu.com"
+        sort: 2
+    - b:
         hint: "please input birthday like 19900101"
+        sort: 3
 
   simple:
     - fixedNum:
@@ -21,7 +24,7 @@ rules:
     - fixedNum:
         hint: "please input fixed number"
     - webSite:
-        hint: "please input web site like http://www.baidu.com"
+        hint: "please input web site like www.baidu.com"
     - birthday:
         hint: "please input birthday like 19900101"
     - email:
