@@ -23,34 +23,38 @@ var generateCmd = &cobra.Command{
 	Use:   "gen",
 	Short: "generate password",
 	Run: func(cmd *cobra.Command, _ []string) {
-		log.Debug("gen called")
-
-		algoConfig := defaultConfig.Algo[genAlgo]
-		if algoConfig == nil {
-			log.Errorf("can not find algorithmFromConfig: %s\n", genAlgo)
-			return
-		}
-		algorithmFromConfig, err := algo.NewAlgorithmFromConfig(algoConfig)
-		if err != nil {
-			log.Errorf("can not create algorithmFromConfig: %s\n", genAlgo)
-			return
-		}
-
-		ruleFromConfig, err := rule.NewRuleFromConfig(genRuleName, defaultConfig)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		err = ruleFromConfig.FullElements()
-		if err != nil {
-			log.Error(err)
-		}
-		ruleFromConfig.Display()
-
-		password := gen.GeneratePassword(ruleFromConfig, algorithmFromConfig)
-		log.Hint(password)
+		getPass()
 	},
+}
+
+func getPass() {
+	log.Debug("gen called")
+
+	algoConfig := defaultConfig.Algo[genAlgo]
+	if algoConfig == nil {
+		log.Errorf("can not find algorithmFromConfig: %s\n", genAlgo)
+		return
+	}
+	algorithmFromConfig, err := algo.NewAlgorithmFromConfig(algoConfig)
+	if err != nil {
+		log.Errorf("can not create algorithmFromConfig: %s\n", genAlgo)
+		return
+	}
+
+	ruleFromConfig, err := rule.NewRuleFromConfig(genRuleName, defaultConfig)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	err = ruleFromConfig.FullElements()
+	if err != nil {
+		log.Error(err)
+	}
+	ruleFromConfig.Display()
+
+	password := gen.GeneratePassword(ruleFromConfig, algorithmFromConfig)
+	log.Hint(password)
 }
 
 func init() {

@@ -5,12 +5,14 @@ Copyright © 2023 Helloworld helloworldyong9@gmail.com
 package cmd
 
 import (
+	"bytes"
+	"fmt"
 	"github.com/letusgogo/nopass/config"
 	"github.com/letusgogo/nopass/log"
-	"os"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"gopkg.in/yaml.v3"
+	"os"
 )
 
 var (
@@ -23,7 +25,7 @@ var rootCmd = &cobra.Command{
 	Short: "A password generator based on user-defined fields (nopass)",
 
 	Run: func(cmd *cobra.Command, args []string) {
-
+		getPass()
 	},
 }
 
@@ -40,8 +42,8 @@ func init() {
 	cobra.OnInitialize(initLog)
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringP("config", "c", "", "config file (default is $HOME/.nopass.yaml)")
-	rootCmd.PersistentFlags().StringP("log", "l", "info", "log level (default is info)")
+	rootCmd.PersistentFlags().StringP("config", "c", "nopass.yaml", "config file (default is $HOME/nopass.yaml)")
+	rootCmd.PersistentFlags().StringP("log", "l", "debug", "log level (default is info)")
 }
 
 func initLog() {
@@ -58,35 +60,56 @@ func initConfig() {
 	if err != nil {
 		panic(err)
 	}
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
+	viper.SetConfigFile(cfgFile)
 
-		// Search config in home directory with name ".nopass" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigType("yaml")
-		viper.SetConfigName(".nopass")
+	// check if config file exists, if not, create one
+	if _, err = os.Stat(cfgFile); os.IsNotExist(err) {
+		log.Hint("can not find config file, create a new one.")
+		log.Hint("1: for English, 2: 中文配置, 3: exit")
+		var (
+			input string
+			lang  string
+		)
+		_, _ = fmt.Scanln(&input)
+		if input == "1" {
+			lang = "en"
+		} else if input == "2" {
+			lang = "zh"
+		} else {
+			log.Fatal("can not find config file")
+		}
+
+		content, err := config.GetDefaultConfig(lang)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = viper.ReadConfig(bytes.NewBufferString(content))
+		if err != nil {
+			log.Fatalf("read default config failed: %v", err)
+		}
+		err = viper.WriteConfig()
+		if err != nil {
+			log.Fatalf("write default config failed: %v", err)
+		}
 	}
-	// read in environment variables that match
-	viper.AutomaticEnv()
-
 	log.Debug("using config file: ", viper.ConfigFileUsed())
 
 	// If a config file is found, read it in.
-	err = viper.ReadInConfig()
-	if err != nil {
-		log.Fatalf("read %s failed: %v", viper.ConfigFileUsed(), err)
-	}
+	//err = viper.ReadInConfig()
+	//if err != nil {
+	//	log.Fatalf("read %s failed: %v", viper.ConfigFileUsed(), err)
+	//}
 
 	defaultConfig, err = config.LoadConfig()
 	if err != nil {
-		log.Fatalf("load %s failed: %v", viper.ConfigFileUsed(), err)
+		log.Fatalf("load %s failed: %v\n", viper.ConfigFileUsed(), err)
 	}
 	log.DrawPhase("config loaded", log.DebugLevel, func() {
-		log.Debug(defaultConfig)
+		out, err := yaml.Marshal(defaultConfig)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Debug(string(out))
 	})
 }

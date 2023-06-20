@@ -6,7 +6,6 @@ import (
 	"github.com/letusgogo/nopass/log"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
-	"sort"
 	"strings"
 )
 
@@ -32,25 +31,24 @@ func NewRuleFromConfig(ruleName string, c *config.Config) (*Rule, error) {
 		ElementWithVals: []*ElementWithVal{},
 	}
 
-	sortSet := make(map[int]bool)
-
-	for elemName, elemConfig := range ruleConfig {
-		if _, exists := sortSet[elemConfig.Sort]; exists {
-			return nil, fmt.Errorf("duplicate sort value in rule '%s': %d", ruleName, elemConfig.Sort)
+	sortSet := make(map[string]struct{})
+	for _, elemConfig := range ruleConfig {
+		if _, exists := sortSet[elemConfig.Name]; exists {
+			return nil, fmt.Errorf("duplicate element in rule '%s': '%s'", ruleName, elemConfig.Name)
 		}
-		sortSet[elemConfig.Sort] = true
+		sortSet[elemConfig.Name] = struct{}{}
 
 		rule.ElementWithVals = append(rule.ElementWithVals, &ElementWithVal{
 			Element: Element{
-				Name: elemName,
+				Name: elemConfig.Name,
 				Hint: elemConfig.Hint,
-				Sort: elemConfig.Sort,
+				Sort: 0,
 			},
 			Value: "",
 		})
 	}
 
-	sort.Sort(ElementWithVals(rule.ElementWithVals))
+	//sort.Sort(ElementWithVals(rule.ElementWithVals))
 
 	return rule, nil
 }
@@ -60,11 +58,11 @@ type ElementWithVal struct {
 	Value string
 }
 
-type ElementWithVals []*ElementWithVal
-
-func (a ElementWithVals) Len() int           { return len(a) }
-func (a ElementWithVals) Less(i, j int) bool { return a[i].Sort < a[j].Sort }
-func (a ElementWithVals) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+//type ElementWithVals []*ElementWithVal
+//
+//func (a ElementWithVals) Len() int           { return len(a) }
+//func (a ElementWithVals) Less(i, j int) bool { return a[i].Sort < a[j].Sort }
+//func (a ElementWithVals) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 // FullElements full all elements with args
 func (r *Rule) FullElements() error {
@@ -72,7 +70,7 @@ func (r *Rule) FullElements() error {
 		log.Hintf("please input %s: (%s) and then input Enter.", elemVal.Name, elemVal.Hint)
 		val, err := terminal.ReadPassword(int(os.Stdin.Fd()))
 		if err != nil {
-			log.Fatalf("error reading element val: %v\n", err)
+			log.Fatalf("\nerror reading element val: %v\n", err)
 		}
 		elemVal.Value = string(val)
 		log.Hint("")

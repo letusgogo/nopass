@@ -1,0 +1,32 @@
+algo:
+  sha256:
+    salt: nopass
+
+rules:
+  default:
+    - name: luckNum
+      hint: please input a fixed number
+    - name: webSite
+      hint: please input web site like google
+    - name: genMonth
+      hint: please input the mouth of the password generated on this website, like 202101
+
+  simple:
+    - name: luckNum
+      hint: please input your luck number, like 618
+
+  difficult:
+    - name: luckNum
+      hint: please input your luck number, like 618
+    - name: webSite
+      hint: please input web site like google
+    - name: birthday
+      hint: please input birthday like 19900101
+    - name: email
+      hint: please input email like helloworldyong9@gmail
+    - name: phone
+      hint: please input phone like 13800138000
+    - name: idCard
+      hint: please input id card like 110101199001011234
+    - name: momName
+      hint: please input mom name like Julie

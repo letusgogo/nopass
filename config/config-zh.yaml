@@ -1,0 +1,32 @@
+algo:
+  sha256:
+    salt: nopass
+
+rules:
+  default:
+    - name: luckNum
+      hint: 请输入您的幸运数字，如 618
+    - name: webSite
+      hint: 请输入网站名字，如 google
+    - name: genMonth
+      hint: 请输入在此网站生成的密码的月份, 如 202101
+
+  simple:
+    - name: luckNum
+      hint: 请输入您的幸运数字，如 618
+
+  difficult:
+    - name: luckNum
+      hint: 请输入您的幸运数字，如 618
+    - name: webSite
+      hint: 请输入类似谷歌的网站
+    - name: birthday
+      hint: 请输入生日，如 19900101
+    - name: email
+      hint: 请输入类似 helloworldyong9@gmail 的电子邮件
+    - name: phone
+      hint: 请输入类似 13800138000 的手机号码
+    - name: idCard
+      hint: 请输入类似 110101199001011234 的身份证号
+    - name: momName
+      hint: 请输入妈妈的名字，如 Julie
