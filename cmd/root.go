@@ -64,42 +64,15 @@ func initConfig() {
 
 	// check if config file exists, if not, create one
 	if _, err = os.Stat(cfgFile); os.IsNotExist(err) {
-		log.Hint("can not find config file, create a new one.")
-		log.Hint("1: for English, 2: 中文配置, 3: exit")
-		var (
-			input string
-			lang  string
-		)
-		_, _ = fmt.Scanln(&input)
-		if input == "1" {
-			lang = "en"
-		} else if input == "2" {
-			lang = "zh"
-		} else {
-			log.Fatal("can not find config file")
-		}
-
-		content, err := config.GetDefaultConfig(lang)
+		hintCreateConfig()
+	} else {
+		// If a config file is found, read it in.
+		err = viper.ReadInConfig()
 		if err != nil {
-			log.Fatal(err)
-		}
-
-		err = viper.ReadConfig(bytes.NewBufferString(content))
-		if err != nil {
-			log.Fatalf("read default config failed: %v", err)
-		}
-		err = viper.WriteConfig()
-		if err != nil {
-			log.Fatalf("write default config failed: %v", err)
+			log.Fatalf("read %s failed: %v", viper.ConfigFileUsed(), err)
 		}
 	}
 	log.Debug("using config file: ", viper.ConfigFileUsed())
-
-	// If a config file is found, read it in.
-	//err = viper.ReadInConfig()
-	//if err != nil {
-	//	log.Fatalf("read %s failed: %v", viper.ConfigFileUsed(), err)
-	//}
 
 	defaultConfig, err = config.LoadConfig()
 	if err != nil {
@@ -112,4 +85,35 @@ func initConfig() {
 		}
 		log.Debug(string(out))
 	})
+}
+
+func hintCreateConfig() {
+	log.Hint("can not find config file, create a new one.")
+	log.Hint("1: for English, 2: 中文配置, 3: exit")
+	var (
+		input string
+		lang  string
+	)
+	_, _ = fmt.Scanln(&input)
+	if input == "1" {
+		lang = "en"
+	} else if input == "2" {
+		lang = "zh"
+	} else {
+		log.Fatal("can not find config file")
+	}
+
+	content, err := config.GetDefaultConfig(lang)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = viper.ReadConfig(bytes.NewBufferString(content))
+	if err != nil {
+		log.Fatalf("read default config failed: %v", err)
+	}
+	err = viper.WriteConfig()
+	if err != nil {
+		log.Fatalf("write default config failed: %v", err)
+	}
 }
