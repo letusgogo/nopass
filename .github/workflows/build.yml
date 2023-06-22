@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: fyne-app-windows
-          path: nopass
+          path: nopass.exe
 
   build-linux:
     runs-on: ubuntu-latest
@@ -65,6 +65,9 @@ jobs:
 
       - name: Install Fyne CLI
         run: go install fyne.io/fyne/v2/cmd/fyne@latest
+
+      - name: Install lib
+        run: sudo apt-get install libxrandr-dev libxinerama-dev libx11-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libgles2-mesa-dev
 
       - name: Build Linux app
         run: make linux

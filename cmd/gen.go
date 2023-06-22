@@ -55,7 +55,7 @@ func getPass() {
 	ruleFromConfig.Display()
 
 	password := gen.GeneratePassword(ruleFromConfig, algorithmFromConfig)
-	log.Hint(password)
+	//log.Hint(password)
 	ui.DefaultWindow.PrintPass(password)
 	ui.DefaultWindow.Run()
 }
