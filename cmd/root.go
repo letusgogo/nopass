@@ -13,6 +13,7 @@ import (
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 	"os"
+	"os/user"
 )
 
 var (
@@ -42,7 +43,7 @@ func init() {
 	cobra.OnInitialize(initLog)
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringP("config", "c", "nopass.yaml", "config file (default is $HOME/nopass.yaml)")
+	rootCmd.PersistentFlags().StringP("config", "c", "", "config file (default is $HOME/nopass.yaml)")
 	rootCmd.PersistentFlags().StringP("log", "l", "info", "log level (default is info)")
 }
 
@@ -60,6 +61,14 @@ func initConfig() {
 	if err != nil {
 		panic(err)
 	}
+	if cfgFile == "" {
+		u, err := user.Current()
+		if err != nil {
+			log.Fatal(err)
+		}
+		cfgFile = u.HomeDir + "/.nopass.yaml"
+	}
+
 	viper.SetConfigFile(cfgFile)
 
 	// check if config file exists, if not, create one

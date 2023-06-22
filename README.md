@@ -43,3 +43,69 @@ such as birthdays, phone numbers, email addresses, names of relatives, etc., as 
 
 NoPass uses a hashing function to map the input daily life information to different types of characters.
 In this way, NoPass ensures that the generated password has high randomness and complexity while avoiding the risk of password leaks.
+
+## Installation
+macOS:
+
+```bash
+go install fyne.io/fyne/v2/cmd/fyne@latest
+sudo make install
+```
+
+linux:
+```bash
+go get fyne.io/fyne/v2@latest && go install fyne.io/fyne/v2/cmd/fyne@latest
+sudo apt-get install golang gcc libgl1-mesa-dev xorg-dev
+sudo make install-linux
+```
+
+windows:
+```bash
+go install fyne.io/fyne/v2/cmd/fyne@latest
+make win
+```
+## Usage
+Run nopass gen or nopass directly to get started quickly. For more options, use nopass -h.
+```bash
+nopass
+```
+```bash
+nopass gen
+```
+## Configuration File
+You can use the -c option to specify the configuration file.
+```bash
+nopass -c config.yaml
+```
+You can modify the configuration file to create rules that suit your needs. The default rule is default.
+You can also specify the rule to be used with the command.
+```bash
+nopass gen -r simple
+```
+
+```yaml
+rules:
+    default:
+        - name: luckNum
+        hint: please input a fixed number
+        - name: webSite
+        hint: please input web site like google
+        - name: genMonth
+        hint: please input the mouth of the password generated on this website, like 202101
+
+    simple:
+        - name: luckNum
+        hint: please input your luck number, like 618
+
+    difficult:
+        - name: luckNum
+        hint: please input your luck number, like 618
+        - name: webSite
+        hint: please input web site like google
+        - name: birthday
+        hint: please input birthday like 19900101
+        - name: email
+        hint: please input email like helloworldyong9@gmail
+        - name: momName
+        hint: please input mom name like Julie
+```

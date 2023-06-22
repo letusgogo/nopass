@@ -24,9 +24,5 @@ rules:
       hint: please input birthday like 19900101
     - name: email
       hint: please input email like helloworldyong9@gmail
-    - name: phone
-      hint: please input phone like 13800138000
-    - name: idCard
-      hint: please input id card like 110101199001011234
     - name: momName
       hint: please input mom name like Julie

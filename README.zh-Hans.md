@@ -23,3 +23,65 @@ NoPass 是一个密码生成器，旨在避免记忆或保存密码，而是通�
 
 NoPass 使用哈希函数将输入的生活信息映射到不同类型的字符。项目将原始密码的每个字符依次映射到小写字母、大写字母、数字和特殊符号，然后循环进行。
 通过这种方式，NoPass 可以确保生成的密码具有高度随机性和复杂性，同时避免了密码泄露风险。
+
+## 安装
+mac os:
+```bash
+go install fyne.io/fyne/v2/cmd/fyne@latest
+sudo make install
+```
+
+linux:
+```bash
+go get fyne.io/fyne/v2@latest && go install fyne.io/fyne/v2/cmd/fyne@latest
+sudo apt-get install golang gcc libgl1-mesa-dev xorg-dev
+sudo make install-linux
+```
+
+windows:
+```bash
+go install fyne.io/fyne/v2/cmd/fyne@latest
+make win
+```
+
+## 使用
+直接执行 nopass gen 或者 nopass 快速开始使用，更多参数可以使用 nopass -h 查看。
+```bash
+nopass
+```
+```bash
+nopass gen
+```
+
+## 配置文件
+可以使用 -c 参数指定配置文件。
+nopass -c config.yaml
+
+可以自己修改配置文件生成适合自己的规则, 默认使用 default 规则。也可以通过指令指定使用的规则。
+nopass gen -r simple
+```yaml
+rules:
+    default:
+        - name: luckNum
+        hint: please input a fixed number
+        - name: webSite
+        hint: please input web site like google
+        - name: genMonth
+        hint: please input the mouth of the password generated on this website, like 202101
+
+    simple:
+        - name: luckNum
+        hint: please input your luck number, like 618
+
+    difficult:
+        - name: luckNum
+        hint: please input your luck number, like 618
+        - name: webSite
+        hint: please input web site like google
+        - name: birthday
+        hint: please input birthday like 19900101
+        - name: email
+        hint: please input email like helloworldyong9@gmail
+        - name: momName
+        hint: please input mom name like Julie
+```
