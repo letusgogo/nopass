@@ -46,7 +46,6 @@ In this way, NoPass ensures that the generated password has high randomness and 
 
 ## Installation
 If you have installed Go and Make, you can use the following commands to install the program. Alternatively, you can download the corresponding binary files from the release page.
-```bash
 macOS:
 ```bash
 go install fyne.io/fyne/v2/cmd/fyne@latest
