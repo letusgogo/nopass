@@ -10,6 +10,7 @@ import (
 	"github.com/letusgogo/nopass/gen"
 	"github.com/letusgogo/nopass/log"
 	"github.com/letusgogo/nopass/rule"
+	"github.com/letusgogo/nopass/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -55,6 +56,8 @@ func getPass() {
 
 	password := gen.GeneratePassword(ruleFromConfig, algorithmFromConfig)
 	log.Hint(password)
+	ui.DefaultWindow.PrintPass(password)
+	ui.DefaultWindow.Run()
 }
 
 func init() {

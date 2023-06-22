@@ -1,20 +1,20 @@
-MAIN_PATH:=main.go
+MAIN_PATH:=github.com/letusgogo/nopass
 PROJECT:= nopass
 
 .PHONY: darwin
 darwin:
-	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -o ${PROJECT} ${MAIN_PATH}
+	GOOS=darwin go build -v -o ${PROJECT} -gcflags -l ${MAIN_PATH}
 
 .PHONY: linux
 linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o ${PROJECT} ${MAIN_PATH}
+	GOOS=linux go build -v -o ${PROJECT} -gcflags -l ${MAIN_PATH}
 .PHONY: install
 install: darwin
 	cp ${PROJECT} ${GOPATH}/bin/
 
 .PHONY: win
 win:
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -o ${PROJECT}.exe ${MAIN_PATH}
+	GOOS=windows GOARCH=amd64 go build -v -o ${PROJECT}.exe ${MAIN_PATH}
 
 .PHONY: clean
 clean:

@@ -43,7 +43,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringP("config", "c", "nopass.yaml", "config file (default is $HOME/nopass.yaml)")
-	rootCmd.PersistentFlags().StringP("log", "l", "debug", "log level (default is info)")
+	rootCmd.PersistentFlags().StringP("log", "l", "info", "log level (default is info)")
 }
 
 func initLog() {
