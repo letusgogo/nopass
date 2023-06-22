@@ -25,6 +25,8 @@ NoPass 使用哈希函数将输入的生活信息映射到不同类型的字符�
 通过这种方式，NoPass 可以确保生成的密码具有高度随机性和复杂性，同时避免了密码泄露风险。
 
 ## 安装
+如果你安装了 go 和 make, 可以使用下面的命令安装。或者你可以从 release 页面下载对应的二进制文件。
+```bash
 mac os:
 ```bash
 go install fyne.io/fyne/v2/cmd/fyne@latest
