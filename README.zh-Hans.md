@@ -26,6 +26,8 @@ NoPass 使用哈希函数将输入的生活信息映射到不同类型的字符�
 
 ## 安装
 如果你安装了 go 和 make, 可以使用下面的命令安装。或者你可以从 release 页面下载对应的二进制文件。
+
+
 mac os:
 ```bash
 go install fyne.io/fyne/v2/cmd/fyne@latest
