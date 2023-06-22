@@ -14,7 +14,7 @@ install: darwin
 
 .PHONY: win
 win:
-	GOOS=windows GOARCH=amd64 go build -v -o ${PROJECT}.exe ${MAIN_PATH}
+	GOOS=windows go build -v -o ${PROJECT}.exe -gcflags -l ${MAIN_PATH}
 
 .PHONY: clean
 clean:

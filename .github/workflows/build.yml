@@ -18,16 +18,16 @@ jobs:
           go-version: 1.19
 
       - name: Install Fyne CLI
-        run: go get -u fyne.io/fyne/v2/cmd/fyne
+        run: go install fyne.io/fyne/v2/cmd/fyne@latest
 
       - name: Build macOS app
-        run: fyne package -os darwin -name nopass
+        run: make darwin
 
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v2
         with:
           name: fyne-app-macos
-          path: nopass.app
+          path: nopass
 
   build-windows:
     runs-on: windows-latest
@@ -38,19 +38,19 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.17
+          go-version: 1.19
 
       - name: Install Fyne CLI
-        run: go get -u fyne.io/fyne/v2/cmd/fyne
+        run: go install fyne.io/fyne/v2/cmd/fyne@latest
 
       - name: Build Windows app
-        run: fyne package -os windows -name nopass
+        run: make win
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v2
         with:
           name: fyne-app-windows
-          path: nopass.exe
+          path: nopass
 
   build-linux:
     runs-on: ubuntu-latest
@@ -64,10 +64,10 @@ jobs:
           go-version: 1.19
 
       - name: Install Fyne CLI
-        run: go get -u fyne.io/fyne/v2/cmd/fyne
+        run: go install fyne.io/fyne/v2/cmd/fyne@latest
 
       - name: Build Linux app
-        run: fyne package -os linux -name nopass
+        run: make linux
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v2
