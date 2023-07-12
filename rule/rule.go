@@ -81,7 +81,7 @@ func (r *Rule) FullElements() error {
 
 // Display display all elements with values
 func (r *Rule) Display() {
-	log.DrawPhase("please verify generator info", log.DebugLevel, func() {
+	log.DrawParagraph("please verify generator info", log.DebugLevel, func() {
 		for _, elem := range r.ElementWithVals {
 			log.Infof("     %s: %s\n", elem.Name, elem.Value)
 		}

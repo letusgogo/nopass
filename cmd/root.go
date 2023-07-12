@@ -87,7 +87,7 @@ func initConfig() {
 	if err != nil {
 		log.Fatalf("load %s failed: %v\n", viper.ConfigFileUsed(), err)
 	}
-	log.DrawPhase("config loaded", log.DebugLevel, func() {
+	log.DrawParagraph("config loaded", log.DebugLevel, func() {
 		out, err := yaml.Marshal(defaultConfig)
 		if err != nil {
 			log.Fatal(err)

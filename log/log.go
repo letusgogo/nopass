@@ -177,7 +177,7 @@ func Hintf(format string, args ...interface{}) {
 	}
 }
 
-func DrawPhase(title string, level Level, writeBody ...func()) {
+func DrawParagraph(title string, level Level, writeBody ...func()) {
 	if level < logLevel {
 		return
 	}
